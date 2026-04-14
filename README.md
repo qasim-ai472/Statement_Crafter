@@ -46,10 +46,4 @@ This project was a battle of persistence. Living in a region where many major AI
 
 ---
 
-## 🎓 About the Creator
-
-This project marks the end of my "Frontend Chapter." Everything I learned—from **CS50**, midnight YouTube tutorials, and breaking code until 3 AM—went into this. 
-
-As I move forward into the worlds of **Machine Learning, Computer Vision, and Mathematics**, StatementCraft stands as a gift to every student currently fighting the same battles I did.
-
 **If you are applying for a scholarship, Masters, or PhD—StatementCraft is free for you.**
