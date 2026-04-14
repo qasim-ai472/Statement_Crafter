@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StatementCraft — AI Personal Statement Writer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="statment.css"/>
+</head>
+<body>
+
+  <div class="bg-texture"></div>
+  <div class="bg-glow"></div>
+
+  <!-- HERO -->
+  <section class="hero" id="heroSection">
+    <div class="hero-inner">
+      <div class="hero-badge">Puter.js · OpenRouter · Groq · OpenAI</div>
+      <h1 class="hero-title">
+        <span class="hero-title-top">Statement</span>
+        <span class="hero-title-bot">Craft</span>
+      </h1>
+      <p class="hero-sub">Answer 25 carefully crafted questions.<br/>We'll write a personal statement that reads like your story — not a template.</p>
+      <div class="hero-features">
+        <span>4-Paragraph Circular Narrative</span>
+        <span class="dot">·</span>
+        <span>University + Scholarship Ready</span>
+        <span class="dot">·</span>
+        <span>AI-Generated Opening Line</span>
+      </div>
+      <button class="btn-hero" id="startBtn">Begin Your Statement <span class="btn-arrow">→</span></button>
+      <p class="hero-note">Your answers are saved automatically. You can return anytime.</p>
+    </div>
+    <div class="deco-quote left">"</div>
+    <div class="deco-quote right">"</div>
+  </section>
+
+  <!-- FORM SECTION -->
+  <section class="form-section hidden" id="formSection">
+    <div class="form-wrapper">
+
+      <div class="progress-wrap">
+        <div class="progress-steps" id="progressSteps"></div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+      </div>
+
+      <div class="step-container" id="stepContainer">
+
+        <!-- STEP 1 -->
+        <div class="step" id="step-1">
+          <div class="step-header">
+            <span class="step-number">01</span>
+            <h2 class="step-title">What are you applying for?</h2>
+            <p class="step-desc">This shapes the entire tone and structure of your statement.</p>
+          </div>
+          <div class="choice-cards" id="admissionType">
+            <label class="choice-card"><input type="radio" name="admissionType" value="undergraduate"/>
+              <div class="choice-card-inner"><div class="choice-icon">🎓</div><div class="choice-label">Undergraduate Admission</div><div class="choice-desc">Bachelor's degree program</div></div>
+            </label>
+            <label class="choice-card"><input type="radio" name="admissionType" value="graduate"/>
+              <div class="choice-card-inner"><div class="choice-icon">📚</div><div class="choice-label">Graduate Admission</div><div class="choice-desc">Master's or PhD program</div></div>
+            </label>
+            <label class="choice-card"><input type="radio" name="admissionType" value="scholarship"/>
+              <div class="choice-card-inner"><div class="choice-icon">🏅</div><div class="choice-label">Scholarship Only</div><div class="choice-desc">Merit or need-based scholarship</div></div>
+            </label>
+            <label class="choice-card"><input type="radio" name="admissionType" value="both"/>
+              <div class="choice-card-inner"><div class="choice-icon">✦</div><div class="choice-label">Scholarship + Admission</div><div class="choice-desc">Both combined — recommended</div></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step hidden" id="step-2">
+          <div class="step-header"><span class="step-number">02</span><h2 class="step-title">You & Your University</h2><p class="step-desc">Basic details that anchor your statement to a real person and place.</p></div>
+          <div class="form-grid">
+            <div class="field-group full"><label class="field-label">Q2 — Your full name, country of origin, university name, and program you're applying for</label><textarea class="field-input textarea-sm" id="q2" placeholder="e.g. Zamin Ali, from Pakistan — applying for BS Computer Science at Istanbul Technical University" rows="2"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q3 — What draws you to this specific university over every other option available to you?</label><textarea class="field-input" id="q3" placeholder="Think beyond rankings. What specifically about this university — its culture, research, values, or resources — feels like the right fit for where you want to go?" rows="4"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q4 — Name a professor at this university whose research connects to your field. What specifically in their work resonates with you?</label><textarea class="field-input" id="q4" placeholder="e.g. Prof. Dr. Ahmet Yilmaz — his work on edge computing in IoT systems connects directly to my interest in real-time environmental monitoring because..." rows="4"></textarea></div>
+            <div class="field-group full optional-field" id="abroadField">
+              <div class="optional-toggle" id="abroadToggle"><span class="optional-badge">Optional</span><span class="optional-label">Q5 — Applying abroad? Why this country or city?</span><span class="toggle-arrow">▾</span></div>
+              <div class="optional-content hidden" id="abroadContent"><textarea class="field-input" id="q5" placeholder="What will you find in this country that you cannot find at home? What will you bring back when you return?" rows="3"></textarea></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step hidden" id="step-3">
+          <div class="step-header"><span class="step-number">03</span><h2 class="step-title">The Spark</h2><p class="step-desc">Where your passion was born. This becomes Paragraph 1 — the hook that makes an admissions officer stop scrolling.</p></div>
+          <div class="form-grid">
+            <div class="field-group full"><label class="field-label">Q6 — Where did your passion for this field first come from?</label>
+              <div class="select-wrap"><select class="field-select" id="q6"><option value="">Select the origin of your passion...</option><option value="a movie">A Movie</option><option value="a video game">A Video Game</option><option value="a book">A Book</option><option value="a real-life event">A Real-Life Event</option><option value="a person (mentor/family/teacher)">A Person (mentor, family, teacher)</option><option value="a school experiment or project">A School Experiment or Project</option><option value="a problem I wanted to solve">A Problem I Wanted to Solve</option><option value="other">Other</option></select></div>
+            </div>
+            <div class="field-group full"><label class="field-label">Q7 — Name it specifically. What was the movie, game, book, or moment? Describe the exact scene or instant that made something click for you.</label><textarea class="field-input" id="q7" placeholder="Be specific and vivid. Not 'I watched a documentary' but 'In the final scene of Iron Man when Tony says I am Iron Man — I didn't see a superhero, I saw an engineer who built his way out.'" rows="5"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q8 — What did that moment reveal about you as a person? What quality or drive in yourself did you discover?</label><textarea class="field-input" id="q8" placeholder="e.g. I realized I wasn't just fascinated by the technology — I was obsessed with the idea that one person with the right knowledge could build something that changes lives." rows="4"></textarea></div>
+            <div class="field-group full optional-field">
+              <div class="optional-toggle" id="nicknameToggle"><span class="optional-badge">Optional</span><span class="optional-label">Q9 — Did anyone doubt you or give you a nickname based on this passion?</span><span class="toggle-arrow">▾</span></div>
+              <div class="optional-content hidden" id="nicknameContent"><textarea class="field-input" id="q9" placeholder="e.g. My uncle called me 'the dreamer who can't even fix a fan.' I kept that nickname in mind every time I shipped a new project." rows="3"></textarea></div>
+            </div>
+            <div class="field-group full"><label class="field-label">Q10 — In one or two raw, honest sentences — describe your entire journey from that first spark to where you stand today.</label><textarea class="field-input" id="q10" placeholder="The AI will transform this into your unforgettable opening line. e.g. 'A kid from Rawalpindi who taught himself to code on a borrowed laptop is now standing at the door of one of the world's best CS programs.'" rows="4"></textarea></div>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step hidden" id="step-4">
+          <div class="step-header"><span class="step-number">04</span><h2 class="step-title">The Journey</h2><p class="step-desc">What you built, who you became, and what you overcame. This feeds Paragraph 2.</p></div>
+          <div class="form-grid">
+            <div class="field-group full"><label class="field-label">Q11 — What is the most significant thing you have built, created, or worked on in this field?</label><textarea class="field-input" id="q11" placeholder="e.g. I built GrowFocus — a Pomodoro timer where a tree grows in real time as you focus. No libraries. No frameworks. Just discipline made visible." rows="5"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q12 — What skills did you deliberately seek out and build along this journey, and why those specific skills?</label><textarea class="field-input" id="q12" placeholder="Not just a list — explain WHY you chose each one." rows="4"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q13 — Describe up to 3 activities, projects, or experiences that show your work.</label><textarea class="field-input" id="q13" placeholder="1. [Activity] — My role: ... I produced: ... Proof: ...&#10;2. [Activity] — My role: ... I produced: ... Proof: ...&#10;3. [Activity] — My role: ... I produced: ... Proof: ..." rows="7"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q14 — Where did you face your biggest difficulty, and how did you push through it?</label><textarea class="field-input" id="q14" placeholder="Be honest. Difficulty is what makes a story worth reading." rows="5"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q15 — Beyond the technical side, what does your work say about who you are as a person?</label><textarea class="field-input" id="q15" placeholder="e.g. Every project I build solves a real problem for someone I know. That's not a strategy — it's just who I am." rows="3"></textarea></div>
+          </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="step hidden" id="step-5">
+          <div class="step-header"><span class="step-number">05</span><h2 class="step-title">Hardships & Character</h2><p class="step-desc">The harder the truth, the stronger the statement.</p></div>
+          <div class="form-grid">
+            <div class="field-group full"><label class="field-label">Q16 — What personal, financial, or social challenge has shaped your path the most?</label><textarea class="field-input" id="q16" placeholder="This could be poverty, geography, family pressure, disability, conflict, lack of resources — anything real." rows="5"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q17 — Was there a moment you almost gave up on this path entirely? What happened, and what made you stay?</label><textarea class="field-input" id="q17" placeholder="One specific moment. Not 'it was hard' but 'on the night of [X] I nearly deleted everything and...'" rows="4"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q18 — What sacrifice — time, money, comfort, opportunity — did you make to get here?</label><textarea class="field-input" id="q18" placeholder="e.g. I turned down a paid internship to complete my open-source project." rows="3"></textarea></div>
+          </div>
+        </div>
+
+        <!-- STEP 6 -->
+        <div class="step hidden" id="step-6">
+          <div class="step-header"><span class="step-number">06</span><h2 class="step-title">Your Major & Future</h2><p class="step-desc">The largest paragraph. Here your passion becomes direction — and direction becomes destination.</p></div>
+          <div class="form-grid">
+            <div class="field-group full"><label class="field-label">Q19 — What specific incident confirmed that this major is your path?</label><textarea class="field-input" id="q19" placeholder="One moment of clarity. e.g. When I saw aerial footage of the 2022 floods and realized a $200 drone with the right CV model could have mapped the damage in hours..." rows="6"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q20 — Within this broad field, what specific area do you focus on, and why?</label><textarea class="field-input" id="q20" placeholder="e.g. Within AI, I focus specifically on Computer Vision applied to environmental monitoring." rows="4"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q21 — What are you doing right now — today — to actively pursue this specific focus?</label><textarea class="field-input" id="q21" placeholder="Concrete and current. e.g. I am currently completing CS50 AI, building a satellite image classifier..." rows="4"></textarea></div>
+            <div class="field-group full"><label class="field-label">Q22 — Where do you see yourself in 10 years, and how does this university sit specifically on that path?</label><textarea class="field-input" id="q22" placeholder="Be specific about both the destination AND the university's role in getting there." rows="4"></textarea></div>
+          </div>
+        </div>
+
+        <!-- STEP 7 -->
+        <div class="step hidden" id="step-7">
+          <div class="step-header"><span class="step-number">07</span><h2 class="step-title">Tone & Output Settings</h2><p class="step-desc">Choose your AI provider, paste your key, set your tone, and generate.</p></div>
+
+          <!-- PROVIDER + API KEY -->
+          <div class="field-group full api-key-group">
+            <label class="field-label">AI Provider
+              <span class="provider-recommended">Puter.js recommended — zero API key, works from anywhere</span>
+            </label>
+
+            <!-- ✅ FIX: name="provider" (was "providerRadio" — broke JS) -->
+            <div class="provider-cards" id="providerCards">
+              <label class="provider-card">
+                <input type="radio" name="provider" value="puter" checked/>
+                <div class="provider-card-inner">
+                  <div class="provider-card-top"><span class="provider-name">Puter.js</span><span class="provider-tag free">No Key ✦ Best</span></div>
+                  <div class="provider-card-desc">100% Free · No signup · No API key · Works everywhere</div>
+                  <span class="provider-link">Just click Generate →</span>
+                </div>
+              </label>
+              <label class="provider-card">
+                <input type="radio" name="provider" value="openrouter"/>
+                <div class="provider-card-inner">
+                  <div class="provider-card-top"><span class="provider-name">OpenRouter</span><span class="provider-tag free">Free</span></div>
+                  <div class="provider-card-desc">Free key at openrouter.ai · No credit card</div>
+                  <a href="https://openrouter.ai/keys" target="_blank" class="provider-link" onclick="event.stopPropagation()">Get key →</a>
+                </div>
+              </label>
+              <label class="provider-card">
+                <input type="radio" name="provider" value="groq"/>
+                <div class="provider-card-inner">
+                  <div class="provider-card-top"><span class="provider-name">Groq</span><span class="provider-tag free">Free</span></div>
+                  <div class="provider-card-desc">Free key at console.groq.com</div>
+                  <a href="https://console.groq.com" target="_blank" class="provider-link" onclick="event.stopPropagation()">Get key →</a>
+                </div>
+              </label>
+              <label class="provider-card">
+                <input type="radio" name="provider" value="gemini"/>
+                <div class="provider-card-inner">
+                  <div class="provider-card-top"><span class="provider-name">Gemini</span><span class="provider-tag limited">Region limited</span></div>
+                  <div class="provider-card-desc">Blocked in Pakistan</div>
+                  <a href="https://aistudio.google.com/app/apikey" target="_blank" class="provider-link" onclick="event.stopPropagation()">Get key →</a>
+                </div>
+              </label>
+            </div>
+                  <a href="https://console.groq.com" target="_blank" class="provider-link" onclick="event.stopPropagation()">Get key →</a>
+                </div>
+              </label>
+              <label class="provider-card">
+                <input type="radio" name="provider" value="gemini"/>
+                <div class="provider-card-inner">
+                  <div class="provider-card-top"><span class="provider-name">Gemini</span><span class="provider-tag limited">Region limited</span></div>
+                  <div class="provider-card-desc">Free tier blocked in Pakistan</div>
+                  <a href="https://aistudio.google.com/app/apikey" target="_blank" class="provider-link" onclick="event.stopPropagation()">Get key →</a>
+                </div>
+              </label>
+              <label class="provider-card">
+                <input type="radio" name="provider" value="openai"/>
+                <div class="provider-card-inner">
+                  <div class="provider-card-top"><span class="provider-name">OpenAI</span><span class="provider-tag paid">Paid</span></div>
+                  <div class="provider-card-desc">GPT-4o Mini · Billing required</div>
+                  <a href="https://platform.openai.com/api-keys" target="_blank" class="provider-link" onclick="event.stopPropagation()">Get key →</a>
+                </div>
+              </label>
+            </div>
+
+            <!-- API Key input -->
+            <div class="api-input-wrap" style="margin-top:16px;">
+              <label class="field-label">API Key</label>
+              <input type="password" class="field-input field-input-single" id="apiKey" placeholder="No key needed for Puter.js — just click Generate"/>
+              <p class="api-key-hint" id="apiKeyHint">Using Puter.js — no API key required. Just click Generate below.</p>
+              <p class="field-note">Your key is used only in your browser. It never leaves your device.</p>
+            </div>
+
+          </div><!-- /api-key-group -->
+
+          <!-- Tone -->
+          <div class="field-group full">
+            <label class="field-label">Q23 — Tone of your statement</label>
+            <div class="tone-cards" id="toneSelector">
+              <label class="tone-card"><input type="radio" name="tone" value="Formal and Scholarly"/><div class="tone-card-inner"><div class="tone-name">Formal & Scholarly</div><div class="tone-desc">Precise, academic, measured authority</div></div></label>
+              <label class="tone-card"><input type="radio" name="tone" value="Passionate and Personal" checked/><div class="tone-card-inner"><div class="tone-name">Passionate & Personal</div><div class="tone-desc">Warm, driven, emotionally honest</div></div></label>
+              <label class="tone-card"><input type="radio" name="tone" value="Balanced and Confident"/><div class="tone-card-inner"><div class="tone-name">Balanced & Confident</div><div class="tone-desc">Professional yet human — most versatile</div></div></label>
+              <label class="tone-card"><input type="radio" name="tone" value="Concise and Direct"/><div class="tone-card-inner"><div class="tone-name">Concise & Direct</div><div class="tone-desc">Every sentence earns its place</div></div></label>
+            </div>
+          </div>
+
+          <!-- Word Limit -->
+          <div class="field-group full">
+            <label class="field-label">Q24 — Word limit per statement</label>
+            <div class="word-limit-opts" id="wordLimit">
+              <label class="wl-opt"><input type="radio" name="wordLimit" value="300"/> <span>300</span></label>
+              <label class="wl-opt"><input type="radio" name="wordLimit" value="500"/> <span>500</span></label>
+              <label class="wl-opt active"><input type="radio" name="wordLimit" value="650" checked/> <span>650</span></label>
+              <label class="wl-opt"><input type="radio" name="wordLimit" value="800"/> <span>800</span></label>
+              <label class="wl-opt"><input type="radio" name="wordLimit" value="1000"/> <span>1000</span></label>
+            </div>
+          </div>
+
+          <!-- Output Choice -->
+          <div class="field-group full">
+            <label class="field-label">Q25 — Which statements do you need?</label>
+            <div class="output-choice" id="outputChoice">
+              <label class="choice-card sm"><input type="radio" name="outputChoice" value="prompt1"/><div class="choice-card-inner"><div class="choice-label">Prompt 1 Only</div><div class="choice-desc">Interest in Major/Programme</div></div></label>
+              <label class="choice-card sm"><input type="radio" name="outputChoice" value="prompt2"/><div class="choice-card-inner"><div class="choice-label">Prompt 2 Only</div><div class="choice-desc">Ambitions, Skills & Experience</div></div></label>
+              <label class="choice-card sm"><input type="radio" name="outputChoice" value="both" checked/><div class="choice-card-inner"><div class="choice-label">Both ✦ Recommended</div><div class="choice-desc">Complete application package</div></div></label>
+            </div>
+          </div>
+
+          <button class="btn-generate" id="generateBtn">
+            <span class="btn-generate-text">Generate My Statement</span>
+            <span class="btn-generate-icon">✦</span>
+          </button>
+        </div>
+
+      </div><!-- /step-container -->
+
+      <div class="step-nav" id="stepNav">
+        <button class="btn-nav btn-prev hidden" id="prevBtn">← Previous</button>
+        <div class="step-counter" id="stepCounter">Step 1 of 7</div>
+        <button class="btn-nav btn-next" id="nextBtn">Next →</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- OUTPUT SECTION -->
+  <section class="output-section hidden" id="outputSection">
+    <div class="output-wrapper">
+      <div class="output-header">
+        <div><h2 class="output-title">Your Personal Statement</h2><p class="output-sub" id="outputMeta">Generated for <span id="outputName">—</span></p></div>
+        <button class="btn-back" id="backToFormBtn">← Edit Answers</button>
+      </div>
+      <div class="output-panels" id="outputPanels">
+        <div class="output-panel" id="panel1">
+          <div class="panel-head">
+            <div class="panel-title">Prompt 1 — Interest in Major</div>
+            <div class="word-count-wrap"><span class="word-count-num" id="wc1">0</span> words<div class="wc-bar-track"><div class="wc-bar-fill" id="wcBar1"></div></div></div>
+          </div>
+          <div class="panel-loading hidden" id="loading1"><div class="typing-dots"><span></span><span></span><span></span></div><p>Crafting your narrative...</p></div>
+          <textarea class="output-textarea" id="output1" placeholder="Your statement will appear here..."></textarea>
+          <div class="panel-actions">
+            <button class="btn-action" onclick="copyText('output1')">Copy</button>
+            <button class="btn-action" onclick="downloadText('output1','Statement_Prompt1')">Download</button>
+            <button class="btn-action btn-regen" onclick="regenerate(1)">Regenerate</button>
+          </div>
+        </div>
+        <div class="output-panel" id="panel2">
+          <div class="panel-head">
+            <div class="panel-title">Prompt 2 — Ambitions, Skills & Experience</div>
+            <div class="word-count-wrap"><span class="word-count-num" id="wc2">0</span> words<div class="wc-bar-track"><div class="wc-bar-fill" id="wcBar2"></div></div></div>
+          </div>
+          <div class="panel-loading hidden" id="loading2"><div class="typing-dots"><span></span><span></span><span></span></div><p>Weaving your story...</p></div>
+          <textarea class="output-textarea" id="output2" placeholder="Your statement will appear here..."></textarea>
+          <div class="panel-actions">
+            <button class="btn-action" onclick="copyText('output2')">Copy</button>
+            <button class="btn-action" onclick="downloadText('output2','Statement_Prompt2')">Download</button>
+            <button class="btn-action btn-regen" onclick="regenerate(2)">Regenerate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"><span id="toastMsg">Copied!</span></div>
+  <!-- Puter.js: free AI, no API key needed -->
+  <script src="https://js.puter.com/v2/"></script>
+  <script src="statment.js"></script>
+</body>
+</html>
